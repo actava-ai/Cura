@@ -216,8 +216,8 @@ The evaluation harness ports and builds on:
 - **AgentClinic** — [SamuelSchmidgall/AgentClinic](https://github.com/SamuelSchmidgall/AgentClinic) (MIT; Schmidgall et al., 2024). NPC prompts and episode control flow are upstream's; scenario data is fetched from the upstream repo at run time.
 - **MedAgentBench** — [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) (Jiang et al., 2025). Task data and reference-solution graders are vendored; see the protocol note above.
 
-Benchmark datasets remain under their upstream licenses/terms; this repo's code is MIT
-(see [LICENSE](LICENSE)).
+Benchmark datasets remain under their upstream licenses/terms; this repo's code is licensed
+under Apache 2.0 (see [LICENSE](LICENSE) and [NOTICE](NOTICE)).
 
 ## Disclaimer
 

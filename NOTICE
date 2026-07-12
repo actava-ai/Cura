@@ -1,0 +1,21 @@
+Cura
+Copyright 2026 Actava AI
+
+This product includes software developed at Actava AI (https://actava.ai),
+licensed under the Apache License, Version 2.0.
+
+This product ports and builds on the following third-party works:
+
+- HealthBench rubric judge template and scoring logic from openai/simple-evals
+  (https://github.com/openai/simple-evals), MIT License.
+- AgentClinic NPC prompts and episode control flow from
+  SamuelSchmidgall/AgentClinic (https://github.com/SamuelSchmidgall/AgentClinic),
+  MIT License; scenario data is fetched from the upstream repository at run time.
+- MedAgentBench task data and reference-solution graders from
+  stanfordmlgroup/MedAgentBench
+  (https://github.com/stanfordmlgroup/MedAgentBench), vendored under
+  src/cura_eval/benchmarks/medagentbench/.
+
+Benchmark datasets (HealthBench, HealthBench Professional, MedXpertQA,
+AgentClinic scenarios, MedAgentBench tasks) remain under their upstream
+licenses and terms.
