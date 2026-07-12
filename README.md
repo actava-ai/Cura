@@ -1,4 +1,4 @@
-# actAVA Cura 1T
+# Cura 1T
 
 <div align="center">
 <img src=resources/logo.png width="55%"/>
