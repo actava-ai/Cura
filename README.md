@@ -1,15 +1,79 @@
-# Cura
+# Cura 1T
 
-Open-source companion repo for **Cura 1T** (`actava/cura-soar`), Actava's medical model —
-[actava.ai/cura](https://actava.ai/cura) · [API docs](https://actava.ai/cura/docs).
+<div align="center">
+<img src=resources/logo.png width="55%"/>
+</div>
+<p align="center">
+    📖 Check out the Cura 1T <a href="https://actava.ai/cura/cura-technical-report.pdf" target="_blank">Technical report</a>.
+    <br>
+    📍 Use the Cura API — <a href="https://actava.ai/cura/docs" target="_blank">API documentation</a> (OpenAI-compatible).
+    <br>
+    🔑 Get an API key: <a href="https://forms.gle/hLfVUq1pBPRNojkj8" target="_blank">join the waitlist</a>.
+    <br>
+    🔜 Learn more at <a href="https://actava.ai/cura" target="_blank">actava.ai/cura</a>.
+</p>
 
-This repo contains **`cura-eval`**, the medical evaluation harness used to evaluate Cura, plus
-examples for wiring the Cura API into local coding/chat agents. The harness is **model-agnostic**:
-every benchmark drives the model under test through a plain OpenAI-compatible chat-completions
-endpoint, so the same commands evaluate Cura, OpenAI, OpenRouter models, or anything you serve
-locally with vLLM / SGLang / Ollama / LM Studio.
+## Introduction
 
-## Benchmarks
+**Cura 1T** is actAVA's one-trillion-parameter healthcare model. Fine-tuned from Kimi-K2.6 through
+recursive self-improvement — each round, a training agent plans a target capability, trains the
+model, evaluates benchmark trajectories, and refines the data mixture from observed failures, with
+humans gating every keep-or-revert decision — it handles the work healthcare models are actually
+asked to do:
+
+- **Patient consultation**: open-ended health conversations, graded hard by physician-written rubrics
+- **Clinical reasoning over text and medical images**: expert-exam-level diagnosis, treatment, and basic-science questions (text + vision, 256K context)
+- **Interactive diagnosis and EHR tool use**: multi-turn consultations and FHIR-based record operations, end to end
+
+![main_comparison](resources/main_comparison.png)
+
+Cura 1T leads frontier models on **5 of 6 healthcare benchmark panels**: HealthBench Hard (36.8 vs
+31.5 for GPT-5.5), HealthBench Professional (66.2, edging Claude Fable 5's 66.0), MedXpertQA-Text
+(60.0), AgentClinic (79.6 vs 79.4 for Claude Opus 4.8), and MedAgentBench (94.0 vs 93.7 for Claude
+Opus 4.8); GPT-5.5 keeps the lead on MedXpertQA-Multimodal (77.1 vs 72.2). Against its base model
+Kimi-K2.6 the gains are wide: +14.6 points on HealthBench Hard, +15.9 on HealthBench Professional,
++8.6 on MedXpertQA overall, +9.3 on MedAgentBench, and +4.2 on AgentClinic.
+
+![ood_comparison](resources/ood_comparison.png)
+
+Specialization does not cost general capability: Cura 1T stays frontier-competitive out of domain —
+96.7 on AIME 2025, 89.9 on GPQA-Diamond, and top scores on τ²-bench Retail (88.6) and Telecom
+(100.0).
+
+For more detail, check the [technical report](https://actava.ai/cura/cura-technical-report.pdf).
+
+> Reported scores use the tech report's protocol — pass@1 with sampling (temperature 1.0 for
+> HealthBench, MedXpertQA, and AgentClinic; MedXpertQA overall = 2,450 text + 2,000 multimodal
+> questions). `cura-eval` below defaults to greedy decoding for reproducible measurement — pass
+> `--temperature 1.0` to match the report's setting.
+
+## API
+
+The Cura API is OpenAI-compatible: base URL `https://inference.actava.ai/v1`, model id
+`actava/cura-soar`, bearer auth with `ACTAVA_API_KEY`
+([join the waitlist](https://forms.gle/hLfVUq1pBPRNojkj8) for a key).
+
+```bash
+curl https://inference.actava.ai/v1/chat/completions \
+  -H "Authorization: Bearer $ACTAVA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "actava/cura-soar",
+    "messages": [{"role": "user", "content": "Summarize the escalation criteria for chest pain triage."}]
+  }'
+```
+
+Existing OpenAI SDK code works by changing the base URL and model id — see the
+[API documentation](https://actava.ai/cura/docs) for streaming, vision, tool calling, and thinking
+mode. Ready-made configs for local agents (**Codex, Claude Code, Hermes, OpenClaw, Cline, Roo
+Code**) are in [`examples/integrations/`](examples/integrations/).
+
+## Evaluation with cura-eval
+
+This repo contains **`cura-eval`**, the medical evaluation harness used to evaluate Cura 1T. It is
+**model-agnostic**: every benchmark drives the model under test through a plain OpenAI-compatible
+chat-completions endpoint, so the same commands evaluate Cura, OpenAI, OpenRouter models, or
+anything you serve locally with vLLM / SGLang / Ollama / LM Studio.
 
 | Benchmark | Command | Grading | Needs |
 |---|---|---|---|
@@ -26,7 +90,7 @@ locally with vLLM / SGLang / Ollama / LM Studio.
 > agentic ability on the same tasks and graders. AgentClinic follows the upstream "prompt"
 > protocol and grading control flow.
 
-## Install
+### Install
 
 ```bash
 pip install -e .            # or: uv pip install -e .
@@ -35,10 +99,10 @@ pip install -e ".[images]"  # + Pillow, for NEJM image downscaling in agentclini
 
 Python ≥ 3.10.
 
-## Quickstart — evaluate Cura
+### Quickstart — evaluate Cura
 
 ```bash
-export ACTAVA_API_KEY=...   # get access: https://actava.ai/cura
+export ACTAVA_API_KEY=...   # candidate model
 export OPENAI_API_KEY=...   # judge for the rubric-graded benchmarks
 
 # Rubric-judged health conversations (10-example smoke)
@@ -61,7 +125,7 @@ cura-eval medagentbench --limit 10
 Defaults target the Cura API: base URL `https://inference.actava.ai/v1`, model
 `actava/cura-soar`, bearer key from `ACTAVA_API_KEY`.
 
-## Evaluate any OpenAI-compatible endpoint
+### Evaluate any OpenAI-compatible endpoint
 
 The candidate model is just `--base-url` + `--model` + `--api-key-env`:
 
@@ -94,7 +158,7 @@ Notes:
   (HealthBench Professional), `gpt-5.5` (AgentClinic NPCs + moderator) on the official
   OpenAI API. Keep the judge fixed when comparing candidate models.
 
-## Output
+### Output
 
 Each run writes a fresh directory under `--output-dir` (default `results/`):
 
@@ -108,7 +172,7 @@ Headline metrics: HealthBench = mean rubric reward (0–1); HealthBench Professi
 length-adjusted reward (raw also reported); MedXpertQA = exact-match accuracy; AgentClinic =
 diagnostic accuracy; MedAgentBench = task success rate.
 
-## Python API
+### Python API
 
 ```python
 import asyncio
@@ -124,15 +188,7 @@ rows, summary = asyncio.run(run_medxpertqa(candidate, subset="text", limit=20))
 print(summary)
 ```
 
-## Use Cura in local agents
-
-The Cura API is OpenAI-compatible (plus an Anthropic-compatible surface at
-`https://inference.actava.ai/anthropic` for Claude Code), so local agents point at it with a
-provider config. Ready-made configs for **Codex, Claude Code, Hermes, OpenClaw, Cline, and
-Roo Code** are in [`examples/integrations/`](examples/integrations/), mirroring the
-[official integration docs](https://actava.ai/cura/docs).
-
-## Repo layout
+### Repo layout
 
 ```
 src/cura_eval/
@@ -152,7 +208,7 @@ tests/                      # offline unit tests (no network, no keys)
 
 ## Attribution
 
-This harness ports and builds on:
+The evaluation harness ports and builds on:
 
 - **HealthBench** rubric judge template and scoring — [openai/simple-evals](https://github.com/openai/simple-evals) (MIT)
 - **HealthBench Professional** — [openai/healthbench-professional](https://huggingface.co/datasets/openai/healthbench-professional)
@@ -165,5 +221,19 @@ Benchmark datasets remain under their upstream licenses/terms; this repo's code 
 
 ## Disclaimer
 
-Evaluation tooling for research. Nothing here is medical advice, and benchmark scores are not
-a claim of clinical fitness.
+Cura 1T is a research model — not a medical service, and not a substitute for a clinician.
+Benchmark scores do not establish safety for unsupervised clinical use.
+
+## Citation
+
+If you use Cura 1T or this evaluation harness, please cite:
+
+```bibtex
+@techreport{actava2026cura,
+      title={Cura 1T: Specialized Model for Agentic Healthcare},
+      author={{actAVA AI Team}},
+      institution={actAVA},
+      year={2026},
+      url={https://actava.ai/cura/cura-technical-report.pdf},
+}
+```
