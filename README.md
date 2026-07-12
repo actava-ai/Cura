@@ -4,13 +4,13 @@
 <img src=resources/logo.png width="55%"/>
 </div>
 <p align="center">
-    📖 Check out the Cura 1T <a href="https://actava.ai/cura/cura-technical-report.pdf" target="_blank">Technical report</a>.
-    <br>
-    📍 Use the Cura API — <a href="https://actava.ai/cura/docs" target="_blank">API documentation</a> (OpenAI-compatible).
+    🌐 Learn more at <a href="https://actava.ai/cura" target="_blank">actava.ai/cura</a>.
     <br>
     🔑 Get an API key: <a href="https://forms.gle/hLfVUq1pBPRNojkj8" target="_blank">join the waitlist</a>.
     <br>
-    🔜 Learn more at <a href="https://actava.ai/cura" target="_blank">actava.ai/cura</a>.
+    📍 Use the Cura API — <a href="https://actava.ai/cura/docs" target="_blank">API documentation</a> (OpenAI-compatible).
+    <br>
+    📖 Check out the Cura 1T <a href="https://actava.ai/cura/cura-technical-report.pdf" target="_blank">Technical report</a>.
 </p>
 
 ## Introduction
