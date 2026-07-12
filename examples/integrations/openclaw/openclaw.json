@@ -1,0 +1,13 @@
+{
+  "models": {
+    "providers": {
+      "cura": {
+        "baseUrl": "https://inference.actava.ai/v1",
+        "apiKey": "${ACTAVA_API_KEY}",
+        "api": "openai-completions",
+        "models": [{ "id": "actava/cura-soar", "name": "Cura 1T" }]
+      }
+    },
+    "defaults": { "model": "cura/actava/cura-soar" }
+  }
+}

@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cura-eval"
+version = "0.1.0"
+description = "Model-agnostic medical evaluation harness for Cura and any OpenAI-compatible endpoint"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Actava AI", email = "oss@actava.ai" }]
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.40",
+    "datasets>=2.19",
+    "huggingface_hub>=0.23",
+    "requests>=2.31",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/actava-ai/Cura"
+Documentation = "https://actava.ai/cura/docs"
+
+[project.optional-dependencies]
+images = ["pillow>=10.0"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.4", "pillow>=10.0"]
+
+[project.scripts]
+cura-eval = "cura_eval.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cura_eval"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# Verbatim vendored port of the upstream MedAgentBench graders — kept byte-close to
+# upstream so a diff stays clean; do not "fix" lint there.
+"src/cura_eval/benchmarks/medagentbench/refsol.py" = ["ALL"]
