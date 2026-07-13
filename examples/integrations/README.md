@@ -1,10 +1,10 @@
 # Use Cura in local agents
 
 The Cura API speaks the OpenAI chat-completions dialect at
-`https://inference.actava.ai/v1` (bearer auth with `ACTAVA_API_KEY`, model id
-`actava/cura-soar`), plus an **Anthropic-compatible** surface at
-`https://inference.actava.ai/anthropic` for Claude Code. That means most local agents can
-use Cura by adding it as a custom / OpenAI-compatible provider.
+`https://inference.actava.ai/v1` only (bearer auth with `ACTAVA_API_KEY`, model id
+`actava/cura-soar`). That means most local agents can use Cura by adding it as a custom /
+OpenAI-compatible provider; Claude Code, which speaks Anthropic's Messages protocol, goes
+through a local translation proxy instead (see [`claude-code.md`](claude-code.md)).
 
 These configs mirror the official integration docs at
 [actava.ai/cura/docs](https://actava.ai/cura/docs):
