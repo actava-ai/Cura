@@ -11,7 +11,6 @@ These configs mirror the official integration docs at
 
 | Agent | Config |
 |---|---|
-| OpenAI Codex CLI | [`codex/config.toml`](codex/config.toml) |
 | Claude Code | [`claude-code.md`](claude-code.md) |
 | Hermes Agent | [`hermes.md`](hermes.md) |
 | OpenClaw | [`openclaw/openclaw.json`](openclaw/openclaw.json) |

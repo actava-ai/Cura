@@ -65,7 +65,7 @@ curl https://inference.actava.ai/v1/chat/completions \
 
 Existing OpenAI SDK code works by changing the base URL and model id — see the
 [API documentation](https://actava.ai/cura/docs) for streaming, vision, tool calling, and thinking
-mode. Ready-made configs for local agents (**Codex, Claude Code, Hermes, OpenClaw, Cline, Roo
+mode. Ready-made configs for local agents (**Claude Code, Hermes, OpenClaw, Cline, Roo
 Code**) are in [`examples/integrations/`](examples/integrations/).
 
 ## Evaluation with cura-eval
