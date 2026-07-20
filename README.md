@@ -10,7 +10,7 @@
     <br>
     📍 Use the Cura API — <a href="https://actava.ai/cura/docs" target="_blank">API documentation</a> (OpenAI-compatible).
     <br>
-    📖 Check out the Cura 1T <a href="https://actava.ai/cura/cura-technical-report.pdf" target="_blank">Technical report</a>.
+    📖 Check out the Cura 1T <a href="https://arxiv.org/pdf/2607.15314" target="_blank">Technical report</a>.
 </p>
 
 ## Introduction
@@ -40,7 +40,7 @@ Specialization does not cost general capability: Cura 1T stays frontier-competit
 96.7 on AIME 2025, 89.9 on GPQA-Diamond, and top scores on τ²-bench Retail (88.6) and Telecom
 (100.0).
 
-For more detail, check the [technical report](https://actava.ai/cura/cura-technical-report.pdf).
+For more detail, check the [technical report](https://arxiv.org/pdf/2607.15314).
 
 > Reported scores use the tech report's protocol — pass@1 with sampling (temperature 1.0 for
 > HealthBench, MedXpertQA, and AgentClinic; MedXpertQA overall = 2,450 text + 2,000 multimodal
@@ -229,11 +229,13 @@ Benchmark scores do not establish safety for unsupervised clinical use.
 If you use Cura 1T or this evaluation harness, please cite:
 
 ```bibtex
-@techreport{actava2026cura,
-      title={Cura 1T: Specialized Model for Agentic Healthcare},
-      author={{actAVA AI Team}},
-      institution={actAVA},
+@misc{ai2026cura1tspecializedmodel,
+      title={Cura 1T: Specialized Model for Agentic Healthcare}, 
+      author={actAVA AI and : and Haolin Chen and Leon Qi and Steve Brown and Deon Metelski and Tao Xia and Joonyul Lee and Qixuan Wang and Kevin Riley and Frank Wang and Weiran Yao},
       year={2026},
-      url={https://actava.ai/cura/cura-technical-report.pdf},
+      eprint={2607.15314},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2607.15314}, 
 }
 ```
