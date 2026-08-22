@@ -30,6 +30,16 @@ def test_parse_judge_json_accepts_fenced_and_rejects_malformed():
     assert _parse_judge_json("not json") is None
 
 
+def test_parse_judge_json_handles_prose_around_the_block():
+    # Judge replies that open with a sentence before the fenced block used to
+    # fall through to a raw json.loads and score as JUDGE_PARSE_FAILED.
+    assert _parse_judge_json('Certainly.\n```json\n{"criteria_met": true}\n```')["criteria_met"] is True
+    assert _parse_judge_json('Judgment:\n```\n{"criteria_met": false}\n```')["criteria_met"] is False
+    assert _parse_judge_json('```json\n{"criteria_met": true}\n```\nHope this helps.')["criteria_met"] is True
+    assert _parse_judge_json('Verdict: {"criteria_met": false, "explanation": "x"} per rubric.')["criteria_met"] is False
+    assert _parse_judge_json('plain prose, no object at all') is None
+
+
 def test_is_reasoning_model_strips_provider_prefix():
     assert is_reasoning_model("openai/gpt-5.4")
     assert is_reasoning_model("o3-mini")

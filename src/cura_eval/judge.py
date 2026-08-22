@@ -103,10 +103,21 @@ def _format_conversation(conversation: list[dict[str, str]], completion: str) ->
 
 def _parse_judge_json(text: str) -> dict | None:
     cleaned = text.strip()
-    if cleaned.startswith("```"):
-        cleaned = cleaned.split("```")[1]
+    fence = cleaned.find("```")
+    if fence != -1:
+        # Judge models often prefix the fenced block with prose
+        # ("Certainly. ```json ...```"); parse the first fence wherever it is.
+        cleaned = cleaned[fence + 3 :]
         if cleaned.startswith("json"):
             cleaned = cleaned[len("json") :]
+        cleaned = cleaned.split("```")[0]
+    else:
+        # Unfenced reply: take the outermost JSON object so surrounding
+        # prose does not defeat parsing.
+        start, end = cleaned.find("{"), cleaned.rfind("}")
+        if start == -1 or end <= start:
+            return None
+        cleaned = cleaned[start : end + 1]
     try:
         obj = json.loads(cleaned.strip())
     except (ValueError, TypeError):
