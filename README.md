@@ -13,6 +13,10 @@
     📖 Check out the Cura 1T <a href="https://arxiv.org/pdf/2607.15314" target="_blank">Technical report</a>.
 </p>
 
+## News
+
+- **October 5, 2026:** Cura 1T has been accepted to the [NeurIPS 2026 Workshop GenAI4Health](https://genai4health.github.io/2026-NeurIPS/). [Read the paper](https://arxiv.org/abs/2607.15314).
+
 ## Introduction
 
 **Cura 1T** is actAVA's one-trillion-parameter healthcare model. Fine-tuned from Kimi-K2.6 through
