@@ -10,6 +10,17 @@ def test_answer_marker():
     assert extract_letter("answer is (E)", "J") == "E"
 
 
+def test_answer_marker_survives_markdown_and_unicode_decoration():
+    # Decorated markers used to miss the Answer rule entirely, so the
+    # standalone last-occurrence fallback grabbed letters from later prose.
+    assert extract_letter("**Answer:** C. Option D was considered and rejected.", "J") == "C"
+    assert extract_letter("**Final Answer:** A\n\nDifferential recap: (B) viral, (C) bacterial.", "J") == "A"
+    assert extract_letter("Final Answer - C\n\nPlan E rejected due to cost.", "J") == "C"
+    assert extract_letter("Answer：E", "J") == "E"
+    assert extract_letter("**The answer is: B**", "J") == "B"
+    assert extract_letter("ANSWER IS :: G", "J") == "G"
+
+
 def test_standalone_letter_last_occurrence():
     assert extract_letter("Could be A or maybe B", "J") == "B"
 

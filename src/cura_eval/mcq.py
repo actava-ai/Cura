@@ -34,7 +34,14 @@ def extract_letter(text: str, max_letter: str = "J") -> str | None:
     if boxed:
         return boxed[-1]
 
-    marker = re.findall(rf"(?:FINAL\s+)?ANSWER\s*(?:IS\s+)?[:=]?\s*\(?({cls})\)?\b", cleaned)
+    # Allow a short run of decoration between ANSWER/IS and the letter
+    # (markdown bold "**Answer:** C", em dashes, fullwidth colons, ...).
+    # Without this those replies fall through to the standalone rule below,
+    # where later prose letters silently override the stated answer.
+    marker = re.findall(
+        rf"(?:FINAL\s+)?ANSWER\s*(?:IS\s+)?[^A-Za-z0-9]{{0,6}}\(?({cls})\s*\)?\b",
+        cleaned,
+    )
     if marker:
         return marker[-1]
 
